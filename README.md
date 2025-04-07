@@ -13,7 +13,7 @@ Répertoire permettant d'estimer le prochain tirage de l'euromillion en se basan
 
 ## Lancer le scrapping
 
-`/Users/joeybruno/Desktop/Euromillion/venv/bin/python /Users/joeybruno/Desktop/Euromillion/scripts/Scrap.py`
+`/Users/joeybruno/Desktop/GITHUB/Euromillion/venv/bin/python /Users/joeybruno/Desktop/GITHUB/Euromillion/scripts/Scrap.py`
 
 ## Environnement virtuel
 
