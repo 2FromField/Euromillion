@@ -1,4 +1,4 @@
-# Euromillion
+# Pipeline Euromillion
 
 Répertoire permettant d'estimer le prochain tirage de l'euromillion en se basant sur la fréquence de tirage des numéros et des étoiles.
 
@@ -25,5 +25,32 @@ Répertoire permettant d'estimer le prochain tirage de l'euromillion en se basan
 
 `python -m venv venv` # Créer un environnement virtuel nommé "venv" <br>
 `source venv/bin/activate` # Activer l'environnement virtuel <br>
+`pip install -r requirements.txt` # Installer les dépendances dans le venv
 `deactivate` # Désactiver l'environnement virtuel <br>
-`pip freeze>requirements.txt` # Lister les dépendances nécessaires dans un fichier "requirements.txt" <br>
+`pip freeze > requirements.txt` # Dépendances <br>
+
+# Application VueJS
+
+## Création et configuration de l'application VueJS
+
+1. Installer Node : `brew install node`
+2. Créer un projet : `npm create vite@latest` en séléctionnant "Vue" & "TypeScript"
+3. Accéder au dossier courant de l'app : `cd euromillion_app`
+4. Installer les dépendances : `npm install`
+5. Lancer le serveur de dev : `npm run dev`
+6. Accéder au localhost : `http://localhost:5173/`
+
+## Architecutre
+
+mon-app-vue/
+├── node_modules/ # Contient les packages installés (jamais versionner dans Git)
+├── public/ # Fichiers statistiques (ex: images, favicon, manifest)
+├── src/ # Coeur de l'application
+│ ├── assets/ Dossier pour images, polices, SVG, etc
+│ ├── App.vue # Composant racine
+│ └── main.js # Point d'entrée de l'appliation
+├── .gitignore # Fichiers que doit ignorer Git
+├── index.html # Seul fichier HTML définissant app
+├── package.json # Contient le nom du projet / dépendances / scripts
+├── vite.config.js # Fichier de configuration de Vite
+└── README.md # Documentation du projet

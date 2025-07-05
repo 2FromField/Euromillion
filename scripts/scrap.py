@@ -94,5 +94,5 @@ for year in tqdm(years, desc="Récupération des données..."):
     driver.quit()
 
 # Sauvegarder les données au forma CSV
-df_all.to_csv("Data/euromillion.csv", sep=";")
+df_all.to_csv("euromillions_app/src/data/euromillion.csv", sep=";")
 print(df_all)
