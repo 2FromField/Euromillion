@@ -13,7 +13,13 @@ Répertoire permettant d'estimer le prochain tirage de l'euromillion en se basan
 
 ## Lancer le scrapping
 
-`/Users/joeybruno/Desktop/GITHUB/Euromillion/venv/bin/python /Users/joeybruno/Desktop/GITHUB/Euromillion/scripts/Scrap.py`
+`python ./Euromillion/scripts/scrap.py`
+
+## Dépendances
+
+[![Pandas](https://img.shields.io/badge/Pandas%20v2.3.0-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)](https://pypi.org/project/pandas/)
+[![Selenium](https://img.shields.io/badge/Selenium%20v4.34.0-43B02A?style=for-the-badge&logo=Selenium&logoColor=white)](https://pypi.org/project/selenium/)
+[![Numpy](https://img.shields.io/badge/Numpy%20v2.2.6-777BB4?style=for-the-badge&logo=numpy&logoColor=white)](https://pypi.org/project/numpy/)
 
 ## Environnement virtuel
 
