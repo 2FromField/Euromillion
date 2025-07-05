@@ -43,14 +43,14 @@ Répertoire permettant d'estimer le prochain tirage de l'euromillion en se basan
 ## Architecutre
 
 mon-app-vue/
-├── node_modules/ # Contient les packages installés (jamais versionner dans Git)
-├── public/ # Fichiers statistiques (ex: images, favicon, manifest)
-├── src/ # Coeur de l'application
-│ ├── assets/ Dossier pour images, polices, SVG, etc
-│ ├── App.vue # Composant racine
-│ └── main.js # Point d'entrée de l'appliation
-├── .gitignore # Fichiers que doit ignorer Git
-├── index.html # Seul fichier HTML définissant app
-├── package.json # Contient le nom du projet / dépendances / scripts
-├── vite.config.js # Fichier de configuration de Vite
-└── README.md # Documentation du projet
+├── node_modules/ # Contient les packages installés (jamais versionner dans Git) <br>
+├── public/ # Fichiers statistiques (ex: images, favicon, manifest) <br>
+├── src/ # Coeur de l'application<br>
+│ ├── assets/ Dossier pour images, polices, SVG, etc<br>
+│ ├── App.vue # Composant racine<br>
+│ └── main.js # Point d'entrée de l'appliation<br>
+├── .gitignore # Fichiers que doit ignorer Git<br>
+├── index.html # Seul fichier HTML définissant app<br>
+├── package.json # Contient le nom du projet / dépendances / scripts<br>
+├── vite.config.js # Fichier de configuration de Vite<br>
+└── README.md # Documentation du projet<br>
