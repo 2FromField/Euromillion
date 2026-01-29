@@ -1,23 +1,7 @@
-2025-04-07 11:01:47,675 - root - CRITICAL - Date du scrapping: 07/04/2025
-2025-04-07 11:01:47,675 - WDM - INFO - ====== WebDriver manager ======
-2025-04-07 11:01:48,221 - WDM - INFO - Get LATEST chromedriver version for google-chrome
-2025-04-07 11:01:48,321 - WDM - INFO - Get LATEST chromedriver version for google-chrome
-2025-04-07 11:01:48,399 - WDM - INFO - Get LATEST chromedriver version for google-chrome
-2025-04-07 11:01:48,571 - WDM - INFO - WebDriver version 134.0.6998.165 selected
-2025-04-07 11:01:48,576 - WDM - INFO - Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/mac-x64/chromedriver-mac-x64.zip
-2025-04-07 11:01:48,576 - WDM - INFO - About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.165/mac-x64/chromedriver-mac-x64.zip
-2025-04-07 11:01:48,681 - WDM - INFO - Driver downloading response is 200
-2025-04-07 11:01:49,549 - WDM - INFO - Get LATEST chromedriver version for google-chrome
-2025-04-07 11:01:49,738 - WDM - INFO - Driver has been saved in cache [/Users/joeybruno/.wdm/drivers/chromedriver/mac64/134.0.6998.165]
-2025-07-05 21:27:38,274 - root - CRITICAL - Date du scrapping: 05/07/2025
-2025-07-05 21:27:38,275 - WDM - INFO - ====== WebDriver manager ======
-2025-07-05 21:27:39,369 - WDM - INFO - Get LATEST chromedriver version for google-chrome
-2025-07-05 21:27:39,467 - WDM - INFO - Get LATEST chromedriver version for google-chrome
-2025-07-05 21:27:39,514 - WDM - INFO - There is no [mac64] chromedriver "138.0.7204.92" for browser google-chrome "138.0.7204" in cache
-2025-07-05 21:27:39,526 - WDM - INFO - Get LATEST chromedriver version for google-chrome
-2025-07-05 21:27:39,677 - WDM - INFO - WebDriver version 138.0.7204.92 selected
-2025-07-05 21:27:39,681 - WDM - INFO - Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/mac-x64/chromedriver-mac-x64.zip
-2025-07-05 21:27:39,681 - WDM - INFO - About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/mac-x64/chromedriver-mac-x64.zip
-2025-07-05 21:27:39,758 - WDM - INFO - Driver downloading response is 200
-2025-07-05 21:27:40,009 - WDM - INFO - Get LATEST chromedriver version for google-chrome
-2025-07-05 21:27:40,159 - WDM - INFO - Driver has been saved in cache [/Users/joeybruno/.wdm/drivers/chromedriver/mac64/138.0.7204.92]
+
+2026-01-29 14:20:50,218 - root - CRITICAL - Date du scrapping: 29/01/2026
+2026-01-29 14:20:50,231 - WDM - INFO - ====== WebDriver manager ======
+2026-01-29 14:20:50,649 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-01-29 14:20:50,716 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-01-29 14:20:50,762 - WDM - INFO - Driver [/Users/joeybruno/.wdm/drivers/chromedriver/mac64/144.0.7559.109/chromedriver-mac-x64/chromedriver] found in cache
+2026-01-29 14:20:54,913 - root - WARNING - Pas de nouveaux tirages à ajouter

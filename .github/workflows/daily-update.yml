@@ -1,0 +1,58 @@
+name: Daily update CSV
+
+on:
+  schedule:
+    # Cron GitHub Actions = UTC. Ici 06:15 UTC tous les jours.
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Installe Google Chrome
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      # Installe chromedriver compatible
+      - name: Setup Chromedriver
+        uses: nanasess/setup-chromedriver@v2
+
+      - name: Run script
+        env:
+          # utile si tu veux forcer un mode headless via variable
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python ./scripts/scrap.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Vérifie s'il y a des changements
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git add -A
+          git commit -m "Daily data update"
+          git push

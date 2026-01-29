@@ -15,6 +15,13 @@ Répertoire permettant d'estimer le prochain tirage de l'euromillion en se basan
 
 `python ./Euromillion/scripts/scrap.py`
 
+Exemple de sortie:
+
+```
+Récupération des données...:  43%|██████████████████████████████████████████████                                                            | 10/23 [01:01<01:38,  7.60s/it]Capture des données de l'année 2014
+Récupération des données...:  48%|██████████████████████████████████████████████████▋                                                       | 11/23 [01:10<01:35,  7.98s/it]Capture des données de l'année 2015
+```
+
 ## Dépendances
 
 [![Pandas](https://img.shields.io/badge/Pandas%20v2.3.0-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)](https://pypi.org/project/pandas/)
@@ -42,15 +49,39 @@ Répertoire permettant d'estimer le prochain tirage de l'euromillion en se basan
 
 ## Architecutre
 
-mon-app-vue/
-├── node_modules/ # Contient les packages installés (jamais versionner dans Git) <br>
-├── public/ # Fichiers statistiques (ex: images, favicon, manifest) <br>
-├── src/ # Coeur de l'application<br>
-│ ├── assets/ Dossier pour images, polices, SVG, etc<br>
-│ ├── App.vue # Composant racine<br>
-│ └── main.js # Point d'entrée de l'appliation<br>
-├── .gitignore # Fichiers que doit ignorer Git<br>
-├── index.html # Seul fichier HTML définissant app<br>
-├── package.json # Contient le nom du projet / dépendances / scripts<br>
-├── vite.config.js # Fichier de configuration de Vite<br>
-└── README.md # Documentation du projet<br>
+```
+Euromillion/
+├── 📁 euromillion_app
+│   ├── 📁 public
+│   │   └── 🖼️ vite.svg
+│   ├── 📁 src
+│   │   ├── 📁 assets
+│   │   │   └── 🖼️ vue.svg
+│   │   ├── 📁 components
+│   │   │   └── 📄 HelloWorld.vue
+│   │   ├── 📁 data
+│   │   │   └── 📄 euromillion.csv
+│   │   ├── 📄 App.vue
+│   │   ├── 📄 main.ts
+│   │   ├── 🎨 style.css
+│   │   └── 📄 vite-env.d.ts
+│   ├── ⚙️ .gitignore
+│   ├── 📝 README.md
+│   ├── 🌐 index.html
+│   ├── ⚙️ package-lock.json
+│   ├── ⚙️ package.json
+│   ├── ⚙️ tsconfig.app.json
+│   ├── ⚙️ tsconfig.json
+│   ├── ⚙️ tsconfig.node.json
+│   └── 📄 vite.config.ts
+├── 📁 logs
+├── 📁 scripts
+│   ├── 📄 analysis.ipynb
+│   ├── 📄 new.csv
+│   └── 🐍 scrap.py
+├── ⚙️ .gitignore
+├── 📝 README.md
+├── ⚙️ package-lock.json
+├── ⚙️ package.json
+└── 📄 requirements.txt
+```
