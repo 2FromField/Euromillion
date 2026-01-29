@@ -1,0 +1,12 @@
+env: "dev" # ("dev", "prod")
+
+common:
+  project_name: "interclub"
+
+dev:
+  data:
+    TABLE: "data/euromillion.csv"
+
+prod:
+  data:
+    # input_path: "s3://my-bucket/prod/transactions.csv" # -> Remplacer avec GoogleSheet
