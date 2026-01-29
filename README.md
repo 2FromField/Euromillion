@@ -71,7 +71,7 @@ L'application "BeMillionnaire" vient quant à elle appeller ces mêmes données 
 
 3. Dépendances: `pip install -r requirements.txt`
 
-4. Secrets: créez .streamlit/secrets.toml comme ci-dessus
+4. Secrets: créez .streamlit/secrets.toml comme ci-dessous
 
 5. Lancer: `uv run streamlit run app/app.py`
 

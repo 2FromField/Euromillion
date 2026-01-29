@@ -37,13 +37,6 @@ options.add_argument("--headless")  # Mode headless
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-# options.add_argument(
-#     "--disable-gpu"
-# )  # Désactiver l'accélération GPU (utile sur certains OS)
-# options.add_argument(
-#     "--no-sandbox"
-# )  # Recommandé pour éviter des erreurs sur certains systèmes
-# options.add_argument("--disable-dev-shm-usage")  # Pour éviter des crashs sur Linux
 
 # Base de données
 outpath = Path("euromillion_app/src/data/euromillion.csv")
