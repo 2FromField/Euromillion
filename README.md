@@ -158,7 +158,7 @@ _BDD_
    Ajouter des dépendances: `uv add $PACKAGE`
    Retirer des dépendances: `uv remove $PACKAGE`
    Lancer un script: `uv run $SCRIPT.py`
-   Exporter un fichier 'requirements.txt': `uv export -o requirements.txt`
+   Compiler les dépendances dans un fichier 'requirements.txt': `uv pip compile pyproject.toml -o requirements.txt`
 
 # 🚀 Roadmap (idées)
 
