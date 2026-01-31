@@ -129,7 +129,7 @@ Sur Streamlit Community Cloud:
 
 # 🐍 Scraping
 
-Lancer le scraping manuellement: `python ./Euromillion/scripts/scrap.py`
+Lancer le scraping manuellement: `cd uv-env && uv run python ../scripts/scrap.py`
 
 Exemple de sortie:
 

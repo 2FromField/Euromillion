@@ -23,7 +23,7 @@ logging.getLogger("webdriver").setLevel(logging.WARNING)
 
 # Enregistrement des logs
 logging.basicConfig(
-    filename="logs/scrap.log",
+    filename="../logs/scrap.log",
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
@@ -39,7 +39,7 @@ options.add_argument("--disable-dev-shm-usage")
 options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 # Base de données
-outpath = Path("euromillion_app/src/data/euromillion.csv")
+outpath = Path("app/data/bdd.csv")
 entire_df = pd.read_csv(outpath, sep=";")
 
 # Télécharger et utiliser le bon ChromeDriver
@@ -136,4 +136,4 @@ if save:
     df_all = df_all.sort_values(by="Date", ascending=True).reset_index(drop=True)
 
     # Sauvegarder les données au format CSV
-    df_all.to_csv(outpath, sep=";", index=False, mode="a", header=not out.exists())
+    df_all.to_csv(outpath, sep=";", index=False, mode="a", header=None)
