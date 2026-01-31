@@ -1,11 +1,11 @@
 env: "dev" # ("dev", "prod")
 
 common:
-  project_name: "interclub"
+  project_name: "euromillion"
 
 dev:
   data:
-    TABLE: "data/euromillion.csv"
+    TABLE: "app/data/bdd.csv"
 
 prod:
   data:

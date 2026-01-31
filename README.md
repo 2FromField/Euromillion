@@ -159,6 +159,7 @@ _BDD_
    Retirer des dépendances: `uv remove $PACKAGE`
    Lancer un script: `uv run $SCRIPT.py`
    Compiler les dépendances dans un fichier 'requirements.txt': `uv pip compile pyproject.toml -o requirements.txt`
+4. Lancer l'application en localhost: `cd uv-env && uv run streamlit run app/app.py`
 
 # 🚀 Roadmap (idées)
 
