@@ -15,6 +15,11 @@ from tqdm import tqdm
 import logging
 from datetime import datetime
 from pathlib import Path
+import os
+
+# Chemnin relatif au dépot Git
+ROOT = Path(os.getenv("GITHUB_WORKSPACE", Path(__file__).resolve().parents[1]))
+
 
 # Désactivation des logs Selenium
 logging.getLogger("urllib3").setLevel(logging.WARNING)
@@ -22,10 +27,16 @@ logging.getLogger("selenium").setLevel(logging.WARNING)
 logging.getLogger("webdriver").setLevel(logging.WARNING)
 
 # Enregistrement des logs
+log_path = ROOT / "logs" / "scrap.log"
+log_path.parent.mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(
-    filename="../logs/scrap.log",
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler(log_path, encoding="utf-8"),
+        logging.StreamHandler(),
+    ],
 )
 
 # Date du scrap
@@ -39,7 +50,8 @@ options.add_argument("--disable-dev-shm-usage")
 options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 # Base de données
-outpath = Path("app/data/bdd.csv")
+outpath = ROOT / "app" / "data" / "bdd.csv"
+outpath.parent.mkdir(parents=True, exist_ok=True)
 entire_df = pd.read_csv(outpath, sep=";")
 
 # Télécharger et utiliser le bon ChromeDriver
