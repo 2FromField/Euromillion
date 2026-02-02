@@ -23,9 +23,9 @@ def button_css(enabled: bool) -> str:
         button {
             width: 40px;
             height: 40px;
-            background-color: red !important;
+            background-color: blue !important;
             color: white !important;
-            border: 1px solid red !important;
+            border: 1px solid blue !important;
             border-radius: 10px !important;
             padding: 0.4rem 0.6rem !important;
             margin-bottom: 20px;
@@ -106,6 +106,7 @@ def render(numbers, stars, size=40):
             flex-wrap: wrap;
             gap: 8px;
             align-items: center;
+            margin-bottom: 50px;
           }}
 
           .num-circle {{

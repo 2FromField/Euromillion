@@ -50,7 +50,7 @@ options.add_argument("--disable-dev-shm-usage")
 options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 # Base de données
-outpath = ROOT / "app" / "data" / "bdd.csv"
+outpath = ROOT / "uv-env" / "app" / "data" / "bdd.csv"
 outpath.parent.mkdir(parents=True, exist_ok=True)
 entire_df = pd.read_csv(outpath, sep=";")
 
