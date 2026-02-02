@@ -11,10 +11,19 @@ def load_config(path: str | Path = "config.yaml") -> dict:
 
 
 @st.cache_data
+def get_cfg():
+    return load_config("config.yaml")
+
+
 def load_df(file_path):
     df = pd.read_csv(file_path, sep=";")
     df["Date"] = pd.to_datetime(df["Date"], errors="coerce").dt.normalize()
     return df
+
+
+@st.cache_data
+def get_data(path):
+    return load_df(path)
 
 
 def button_css(enabled: bool) -> str:

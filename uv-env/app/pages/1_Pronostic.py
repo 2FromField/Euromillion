@@ -19,9 +19,9 @@ st.markdown(
 
 # Variables
 N_NUM = 50
-COLS_NUM = 10  # 10 boutons par ligne
-N_STAR = 10
-COLS_STAR = 10
+COLS_NUM = 6  # 10 boutons par ligne
+N_STAR = 12
+COLS_STAR = 6
 
 # Initialisation des états des numéros/étoiles
 for i in range(1, N_NUM + 1):
@@ -30,6 +30,17 @@ for i in range(1, N_STAR + 1):
     st.session_state.setdefault(f"enabled_star_{i}", False)
 
 c1, c2, c3 = st.columns([1, 5, 1], gap="small")
+
+
+def toggle_num(i):
+    k = f"enabled_{i}"
+    st.session_state[k] = not st.session_state.get(k, False)
+
+
+def toggle_star(i):
+    k = f"enabled_star_{i}"
+    st.session_state[k] = not st.session_state.get(k, False)
+
 
 with c2:
 
@@ -48,9 +59,12 @@ with c2:
                 with stylable_container(
                     f"btn_wrap_{i}", css_styles=utils.button_css(enabled)
                 ):
-                    if st.button(str(i), key=f"toggle_{i}"):
-                        st.session_state[state_key] = not enabled
-                        st.rerun()
+                    st.button(
+                        str(i),
+                        key=f"toggle_{i}",
+                        on_click=toggle_num,
+                        args=(i,),
+                    )
 
     # Etoiles
     for row_start in range(1, N_STAR + 1, COLS_STAR):  # 1, 11, 21, 31, 41
@@ -69,7 +83,6 @@ with c2:
                 ):
                     if st.button(str(i), key=f"toggle_star_{i}"):
                         st.session_state[state_key] = not enabled
-                        st.rerun()
 
 # Récupération des états "true" (numéros et étoiles sélectionnées)
 nb_true = {
@@ -109,17 +122,52 @@ st.markdown(
 )
 
 # Configuration de l'environnement
-cfg = utils.load_config("config.yaml")
+cfg = utils.get_cfg()
 env = cfg.get("env", "dev")  # "dev" ou "prod"
 project_name = cfg["common"]["project_name"]  # euromillion
 env_cfg = cfg[env]  # Accès à la section env (dev/prod)
 
 # Chargement des données
 table_path = env_cfg["data"]["TABLE"]
-data = utils.load_df(table_path)
+data = utils.get_data(table_path)
 
-# Graphs
-df_plot = data if data is not None else data
+# Format de date (sans heures)
+data["Date"] = pd.to_datetime(data["Date"], errors="coerce").dt.normalize()
+
+# Filtre
+min_d = data["Date"].min()
+max_d = data["Date"].max()
+
+options = {
+    "Last 3 days": 3,
+    "Last week": 7,
+    "Last month": 30,
+    "Last 3 months": 90,
+    "Last 6 months": 180,
+    "Last year": 365,
+    "Last 2 years": 730,
+    "Last 3 years": 1095,
+    "Last 5 years": 1825,
+    "Last 10 years": 3650,
+    "All time": None,
+}
+
+labels = list(options.keys())
+period = st.selectbox(
+    "Period", labels, index=labels.index("All time"), key="period_select"
+)
+
+end = max_d
+days = options[period]
+
+start = min_d if days is None else max(end - pd.Timedelta(days=days), min_d)
+
+st.caption(f"Filtre: {start.date()} → {end.date()}")
+
+df_filtered = data[data["Date"].between(start, end)].copy()
+
+# ✅ Graphs doivent utiliser df_filtered
+df_plot = df_filtered
 
 num_cols = ["n1", "n2", "n3", "n4", "n5"]
 star_cols = ["e1", "e2"]
@@ -129,7 +177,7 @@ df_plot[num_cols + star_cols] = df_plot[num_cols + star_cols].apply(
     pd.to_numeric, errors="coerce"
 )
 
-# Passer en "long format" puis compter
+# Long format + fréquences
 nums_long = df_plot[num_cols].melt(value_name="val").dropna()
 stars_long = df_plot[star_cols].melt(value_name="val").dropna()
 
