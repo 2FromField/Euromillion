@@ -121,7 +121,7 @@ stars_true = {
 b1, b2, b3 = st.columns([1, 4, 1], gap="small")
 with b2:
     # Exemple d'affichage
-    utils.render(nb_true, stars_true)
+    utils.render("Ma sélection :", nb_true, stars_true)
 
 
 def transform_to_list(numbers):
@@ -170,25 +170,38 @@ else:
 
     matches = df_src.loc[mask].sort_values("Date", ascending=False)
 
-    if matches.empty:
-        st.info("Aucun tirage historisé ne contient cette combinaison.")
-    else:
-        t1, t2, t3 = st.columns([1, 1, 3], gap="small")
-        last_row = matches.iloc[0]  # ligne la plus récente
+if matches.empty:
+    st.info("Aucun tirage historisé ne contient cette combinaison.")
+else:
+    last_row = matches.iloc[0]  # ligne la plus récente
+
+    with stylable_container(
+        "ant_tirage",
+        css_styles="""
+        {
+          background-color: rgb(38, 38, 38);
+          border-radius: 12px;
+          padding: 12px;
+        }
+        """,
+    ):
+        t1, t2 = st.columns([1, 3], gap="small")
+
         with t1:
-            st.markdown(
-                f"<h5 style='margin-top:20px;'>Tirage similaire :</h5>",
-                unsafe_allow_html=True,
+            date_txt = (
+                last_row["Date"].strftime("%Y-%m-%d")
+                if pd.notna(last_row["Date"])
+                else ""
             )
+            st.markdown(
+                f"<h5 style='margin-top:20px;'>{date_txt}</h5>", unsafe_allow_html=True
+            )
+
         with t2:
-            st.markdown(
-                f"<h5 style='margin-top:20px;'>{last_row['Date'].strftime('%Y-%m-%d')}</h5>",
-                unsafe_allow_html=True,
-            )
-        with t3:
             utils.render(
-                {int(last_row[c]) for c in num_cols},
-                {int(last_row[c]) for c in star_cols},
+                "Tirage similaire répertorié :",
+                {int(last_row[c]) for c in num_cols if pd.notna(last_row[c])},
+                {int(last_row[c]) for c in star_cols if pd.notna(last_row[c])},
             )
 
 ##################################################################
@@ -208,17 +221,17 @@ min_d = data["Date"].min()
 max_d = data["Date"].max()
 
 options = {
-    "Last 3 days": 3,
-    "Last week": 7,
-    "Last month": 30,
-    "Last 3 months": 90,
-    "Last 6 months": 180,
-    "Last year": 365,
-    "Last 2 years": 730,
-    "Last 3 years": 1095,
-    "Last 5 years": 1825,
-    "Last 10 years": 3650,
-    "All time": None,
+    "3 derniers jours": 3,
+    "Dernière semaine": 7,
+    "Dernier mois": 30,
+    "3 derniers mois": 90,
+    "6 derniers mois": 180,
+    "Dernière année": 365,
+    "2 dernières années": 730,
+    "3 dernières années": 1095,
+    "5 dernières années": 1825,
+    "10 dernières années": 3650,
+    "Tout l'historique": None,
 }
 
 labels = list(options.keys())
@@ -228,7 +241,7 @@ with p1:
     period = st.selectbox(
         "Laps de temps observé",
         labels,
-        index=labels.index("All time"),
+        index=labels.index("Tout l'historique"),
         key="period_select",
     )
     # Variable de temps

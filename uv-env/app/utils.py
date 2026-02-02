@@ -85,7 +85,7 @@ def star_css(enabled: bool) -> str:
         button {
             width: 40px;
             height: 40px;
-            background-color: grey !important;
+            background-color: #808080 !important;
             color: white !important;
             border: 1px solid yellow !important;
             padding:0;
@@ -106,7 +106,7 @@ def star_css(enabled: bool) -> str:
     """
 
 
-def render(numbers, stars, size=40):
+def render(text, numbers, stars, size=40):
     st.markdown(
         f"""
         <style>
@@ -188,7 +188,7 @@ def render(numbers, stars, size=40):
 
     html = (
         '<div class="wrap">'
-        '<span class="label">Mon tirage :</span>'
+        f'<h5 class="label" style="margin-top: 5px;">{text}</h5>'
         + "".join(f'<span class="num-circle">{n}</span>' for n in numbers)
         + "".join(f'<span class="star-circle">{s}</span>' for s in stars)
         + "</div>"
