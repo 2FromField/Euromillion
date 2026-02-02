@@ -7,8 +7,29 @@ import altair as alt
 import pandas as pd
 
 ##################################################################
+#                           DONNEES                              #
+##################################################################
+
+# Configuration de l'environnement
+cfg = utils.get_cfg()
+env = cfg.get("env", "dev")  # "dev" ou "prod"
+project_name = cfg["common"]["project_name"]  # euromillion
+env_cfg = cfg[env]  # Accès à la section env (dev/prod)
+
+# Chargement des données
+table_path = env_cfg["data"]["TABLE"]
+data = utils.get_data(table_path)
+
+
+##################################################################
 #                         PRONOSTICS                             #
 ##################################################################
+
+# Style CSS
+css_path = Path(__file__).resolve().parents[1] / "style.css"
+st.markdown(
+    f"<style>{css_path.read_text(encoding='utf-8')}</style>", unsafe_allow_html=True
+)
 
 st.set_page_config(page_title="Accueil", layout="wide")
 
@@ -81,8 +102,12 @@ with c2:
                 with stylable_container(
                     f"btn_star_{i}", css_styles=utils.star_css(enabled)
                 ):
-                    if st.button(str(i), key=f"toggle_star_{i}"):
-                        st.session_state[state_key] = not enabled
+                    st.button(
+                        str(i),
+                        key=f"toggle_star_{i}",
+                        on_click=toggle_star,
+                        args=(i,),
+                    )
 
 # Récupération des états "true" (numéros et étoiles sélectionnées)
 nb_true = {
@@ -109,8 +134,62 @@ def transform_to_list(numbers):
     return numbers
 
 
+# Liste des chiffres/nombres sélectionnés
 list_nb = transform_to_list(nb_true)
 list_star = transform_to_list(stars_true)
+
+# Réciprocité avec l'historique des résultats
+df_src = data.copy()
+
+# Entetes de colonnes
+num_cols = ["n1", "n2", "n3", "n4", "n5"]
+star_cols = ["e1", "e2"]
+
+# Sécuriser les types
+df_src = df_src.copy()
+df_src["Date"] = pd.to_datetime(df_src["Date"], errors="coerce")
+df_src[num_cols + star_cols] = df_src[num_cols + star_cols].apply(
+    pd.to_numeric, errors="coerce"
+)
+
+# Garde-fous (sinon impossible)
+if len(list_nb) > 5:
+    st.warning("Impossible : un tirage ne contient que 5 numéros.")
+elif len(list_star) > 2:
+    st.warning("Impossible : un tirage ne contient que 2 étoiles.")
+else:
+    mask = pd.Series(True, index=df_src.index)
+
+    # Tous les numéros sélectionnés doivent être présents sur la même ligne
+    if list_nb:
+        mask &= df_src[num_cols].isin(list_nb).sum(axis=1).ge(len(list_nb))
+
+    # Toutes les étoiles sélectionnées doivent être présentes sur la même ligne
+    if list_star:
+        mask &= df_src[star_cols].isin(list_star).sum(axis=1).ge(len(list_star))
+
+    matches = df_src.loc[mask].sort_values("Date", ascending=False)
+
+    if matches.empty:
+        st.info("Aucun tirage historisé ne contient cette combinaison.")
+    else:
+        t1, t2, t3 = st.columns([1, 1, 3], gap="small")
+        last_row = matches.iloc[0]  # ligne la plus récente
+        with t1:
+            st.markdown(
+                f"<h5 style='margin-top:20px;'>Tirage similaire :</h5>",
+                unsafe_allow_html=True,
+            )
+        with t2:
+            st.markdown(
+                f"<h5 style='margin-top:20px;'>{last_row['Date'].strftime('%Y-%m-%d')}</h5>",
+                unsafe_allow_html=True,
+            )
+        with t3:
+            utils.render(
+                {int(last_row[c]) for c in num_cols},
+                {int(last_row[c]) for c in star_cols},
+            )
 
 ##################################################################
 #                         STATISTIQUES                           #
@@ -120,16 +199,6 @@ st.markdown(
     f"<h1 style='margin-bottom:30px;'>STATISTIQUES</h1>",
     unsafe_allow_html=True,
 )
-
-# Configuration de l'environnement
-cfg = utils.get_cfg()
-env = cfg.get("env", "dev")  # "dev" ou "prod"
-project_name = cfg["common"]["project_name"]  # euromillion
-env_cfg = cfg[env]  # Accès à la section env (dev/prod)
-
-# Chargement des données
-table_path = env_cfg["data"]["TABLE"]
-data = utils.get_data(table_path)
 
 # Format de date (sans heures)
 data["Date"] = pd.to_datetime(data["Date"], errors="coerce").dt.normalize()
@@ -153,16 +222,25 @@ options = {
 }
 
 labels = list(options.keys())
-period = st.selectbox(
-    "Period", labels, index=labels.index("All time"), key="period_select"
-)
 
-end = max_d
-days = options[period]
+p1, p2 = st.columns([3, 1], gap="small")
+with p1:
+    period = st.selectbox(
+        "Laps de temps observé",
+        labels,
+        index=labels.index("All time"),
+        key="period_select",
+    )
+    # Variable de temps
+    end = max_d
+    days = options[period]
 
-start = min_d if days is None else max(end - pd.Timedelta(days=days), min_d)
-
-st.caption(f"Filtre: {start.date()} → {end.date()}")
+    start = min_d if days is None else max(end - pd.Timedelta(days=days), min_d)
+with p2:
+    st.markdown(
+        f"<h5 style='margin-top:28px;'>{start.date()} → {end.date()}</h5>",
+        unsafe_allow_html=True,
+    )
 
 df_filtered = data[data["Date"].between(start, end)].copy()
 
