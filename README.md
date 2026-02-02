@@ -14,11 +14,9 @@ L'application "BeMillionnaire" vient quant à elle appeller ces mêmes données 
 
 # ✨ Fonctionnalités
 
+- Possibilité de simuler son prochain pronostic de l'Euromillion
+- Statistiques interactifs selon vos pronostics
 - Historique des tirages officiels de l'Euromillion
-- Statistiques & Probabilités interactifs selon vos pronostics
-- Déploiement GitHub -> Streamlit Community Cloud
-- Secrets sécurisés (credentials GCP + SHEET ID) via Secrets Manager Streamlit
-- Datavisualisation via Altair
 
 # 🗂️ Arborescence
 
@@ -27,24 +25,26 @@ L'application "BeMillionnaire" vient quant à elle appeller ces mêmes données 
 │   └── 📁 workflows
 │       └── ⚙️ daily-update.yml             # Fichier d'automatisation via GithHub Pages
 ├── 📁 logs
+│   └── 📄 scrap.log                        # Logs relatifs au recueil des données
 ├── 📁 scripts
-│   ├── 📄 analysis.ipynb                   # Datamining
 │   └── 🐍 scrap.py                         # Script de scrapping des données
-├── 📁 uv-env
+├── 📁 uv-env                               # Envrionnement virtuel UV-python
 │   ├── 📁 app
 │   │   ├── 📁 assets                       # Elements annexés au projet (img,photo,etc)
 │   │   ├── 📁 data
-│   │   │   └── 📄 euromillion.csv          # Base de données
+│   │   │   └── 📄 bdd.csv                  # Base de données
 │   │   ├── 📁 pages
-│   │   │   ├── 🐍 0_Pronostic.py           # Page interactif de simulation
-│   │   │   └── 🐍 1_Historique.py          # Page "Historique" des tirages
+│   │   │   ├── 🐍 0_Euromillion.py         # Page interactif de simulation
+│   │   │   ├── ...                         # Autres pages futures
 │   │   ├── 🐍 app.py                       # Application Streamlit
 │   │   └── 🐍 utils.py                     # Fichier de fonctions
+│   │   └── 🎨 style.css                    # Fichier de style des balises HTML
 │   ├── ⚙️ .gitignore                       # Exclusions git
 │   ├── ⚙️ config.yaml                      # Fichier de configiration "prod"/"dev"
 │   ├── 🐍 main.py
 │   └── ⚙️ pyproject.toml                   # Dépendances UV-python
 └── 📝 README.md                            # Documentation
+└── 🛠️ requirements.txt                     # Dépendances nécessaires à Github Pages
 ```
 
 # 📦 Aperçu technique
