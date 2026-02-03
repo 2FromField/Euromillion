@@ -32,12 +32,13 @@ L'application "BeMillionnaire" vient quant à elle appeller ces mêmes données 
 │   ├── 📁 app
 │   │   ├── 📁 assets                       # Elements annexés au projet (img,photo,etc)
 │   │   ├── 📁 data
-│   │   │   └── 📄 bdd.csv                  # Base de données
+│   │   │   └── 📄 BDD.csv                  # Base de données
 │   │   ├── 📁 pages
 │   │   │   ├── 🐍 0_Euromillion.py         # Page interactif de simulation
 │   │   │   ├── ...                         # Autres pages futures
 │   │   ├── 🐍 app.py                       # Application Streamlit
 │   │   └── 🐍 utils.py                     # Fichier de fonctions
+│   │   └── 🐍 gs_utils.py                  # Fichier de fonctions relatif à GoogleSheet
 │   │   └── 🎨 style.css                    # Fichier de style des balises HTML
 │   ├── ⚙️ .gitignore                       # Exclusions git
 │   ├── ⚙️ config.yaml                      # Fichier de configiration "prod"/"dev"
@@ -92,7 +93,7 @@ En local, créez `.streamlit/secrets.toml` pour y stocker vos données sensibles
 [prod]
 SHEET_ID = "<votre_sheet_id>"
 [dev]
-BDD = "path/to/bdd.csv"
+BDD = "path/to/BDD.csv"
 [gcp]
 type = "service_account"
 project_id = "<...>"

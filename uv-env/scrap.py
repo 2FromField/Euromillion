@@ -16,10 +16,12 @@ import logging
 from datetime import datetime
 from pathlib import Path
 import os
+import app.gs_utils as gs_utils
+import yaml
+
 
 # Chemnin relatif au dépot Git
 ROOT = Path(os.getenv("GITHUB_WORKSPACE", Path(__file__).resolve().parents[1]))
-
 
 # Désactivation des logs Selenium
 logging.getLogger("urllib3").setLevel(logging.WARNING)
@@ -27,7 +29,7 @@ logging.getLogger("selenium").setLevel(logging.WARNING)
 logging.getLogger("webdriver").setLevel(logging.WARNING)
 
 # Enregistrement des logs
-log_path = ROOT / "logs" / "scrap.log"
+log_path = ROOT / "uv-env" / "app" / "logs" / "scrap.log"
 log_path.parent.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(
@@ -49,10 +51,25 @@ options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
+
+# Environnement ("dev" OU "prod")
+def load_config(path: str | Path = "config.yaml") -> dict:
+    path = Path(path)
+    with path.open("r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+cfg = load_config("config.yaml")
+env = cfg.get("env", "dev")  # "dev" ou "prod"
+logging.warning(f"Scrapping des données en mode '{env}'")
+
 # Base de données
-outpath = ROOT / "uv-env" / "app" / "data" / "bdd.csv"
-outpath.parent.mkdir(parents=True, exist_ok=True)
-entire_df = pd.read_csv(outpath, sep=";")
+if env == "dev":
+    outpath = (ROOT / cfg[env]["data"]["TABLE"]).resolve()
+    outpath.parent.mkdir(parents=True, exist_ok=True)
+    entire_df = gs_utils.load_table(env, "BDD")  # fichier CSV
+else:  # "prod"
+    entire_df = gs_utils.load_table(env, "BDD")  # Google Sheet
 
 # Télécharger et utiliser le bon ChromeDriver
 service = Service(ChromeDriverManager().install())
@@ -110,25 +127,57 @@ for year in tqdm(years, desc=f"Récupération des données..."):
     # Reformater les dates
     df["Date"] = df["Date"].str.extract(r"(\d{2}/\d{2}/\d{4})")
 
-    # Convertir en datetime (jour en premier)
     # Convertir en datetime + normaliser (au jour)
     df["Date"] = pd.to_datetime(
         df["Date"], format="%d/%m/%Y", errors="coerce"
     ).dt.normalize()
 
-    # Split tirage
-    df[["n1", "n2", "n3", "n4", "n5", "e1", "e2"]] = (
-        df["Tirage"].str.split(r"\s+", expand=True).iloc[:, :7].astype("Int64")
-    )
+    try:
+        # Si le site renvoie "Tirage Gagnant" au lieu de "Tirage"
+        df = df.rename(columns={"Tirage Gagnant": "Tirage"})
 
-    # Garder uniquement les nouvelles dates
-    df_new = df[~df["Date"].isin(existing_dates)].copy()
+        num_cols = ["n1", "n2", "n3", "n4", "n5", "e1", "e2"]
 
-    # Mettre à jour le set pour éviter les doublons dans les itérations suivantes
-    existing_dates.update(df_new["Date"].dropna())
+        # Extraire les nombres (robuste même si Tirage = "-" ou vide)
+        nums = df["Tirage"].astype(str).str.findall(r"\d+")
 
-    # Drop colonnes inutiles
-    df_new = df_new.drop(columns=["Tirage"], errors="ignore")
+        # Garder uniquement les lignes qui ont exactement 7 nombres (5 + 2 étoiles)
+        mask_ok = nums.str.len().eq(7)
+
+        # Logger les lignes invalides (ex: "-")
+        if (~mask_ok).any():
+            bad = df.loc[~mask_ok, ["Date", "Tirage"]].copy()
+            for _, r in bad.iterrows():
+                logging.warning(f"Tirage illisible le {r['Date']}: {r['Tirage']}")
+
+        # Construire un df propre uniquement avec les tirages valides
+        df_ok = df.loc[mask_ok].copy()
+
+        # Si df_ok est vide, rien à ajouter
+        if df_ok.empty:
+            df_new = df_ok.copy()
+        else:
+            df_ok[num_cols] = pd.DataFrame(
+                nums[mask_ok].tolist(), index=df_ok.index
+            ).astype("Int64")
+
+            # Garder uniquement les nouvelles dates
+            df_new = df_ok[~df_ok["Date"].isin(existing_dates)].copy()
+
+            # Mettre à jour le set pour éviter les doublons dans les itérations suivantes
+            existing_dates.update(df_new["Date"].dropna())
+
+            # Drop colonnes inutiles
+            df_new = df_new.drop(columns=["Tirage"], errors="ignore")
+
+    except Exception as e:
+        date_safe = (
+            df["Date"].iloc[0] if "Date" in df.columns and len(df) > 0 else "unknown"
+        )
+        logging.exception(
+            f"Erreur récupération des données (date approx: {date_safe.strftime('%Y-%m-%d')})"
+        )
+        df_new = pd.DataFrame()  # pour éviter de planter le reste de la boucle
 
     if not df_new.empty:
         # Ajouter les nouvelles lignes
@@ -147,5 +196,15 @@ if save:
     # Trier de la plus ancienne à la plus récente
     df_all = df_all.sort_values(by="Date", ascending=True).reset_index(drop=True)
 
-    # Sauvegarder les données au format CSV
-    df_all.to_csv(outpath, sep=";", index=False, mode="a", header=None)
+    if env == "dev":
+        # Sauvegarder les données au format CSV
+        df_all.to_csv(outpath, sep=";", index=False, mode="a", header=None)
+    else:  # "prod"
+        row_list = df_new.squeeze().tolist()  # nouvelle ligne
+        cols = ["Date", "Gagnant", "Jackpot", "n1", "n2", "n3", "n4", "n5", "e1", "e2"]
+        row_dict = dict(zip(cols, row_list))  # conversion en dictionnaire
+        row_dict["Jackpot"] = str(row_dict["Jackpot"])
+        row_dict["Date"] = row_dict["Date"].strftime(
+            "%d/%m/%Y"
+        )  # modifier la date au bon format
+        gs_utils.append_rows_sheet([row_dict], "BDD")

@@ -5,7 +5,7 @@ common:
 
 dev:
   data:
-    TABLE: "app/data/bdd.csv"
+    TABLE: "uv-env/app/data/BDD.csv"
 
 prod:
   data:

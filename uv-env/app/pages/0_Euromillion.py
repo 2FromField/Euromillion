@@ -2,6 +2,7 @@ import streamlit as st
 import base64
 from pathlib import Path
 import utils
+import gs_utils
 import pandas as pd
 from streamlit_extras.stylable_container import stylable_container
 import altair as alt
@@ -32,8 +33,12 @@ project_name = cfg["common"]["project_name"]  # euromillion
 env_cfg = cfg[env]  # Accès à la section env (dev/prod)
 
 # Chargement des données
-table_path = env_cfg["data"]["TABLE"]
-data = utils.load_df(table_path)
+if env == "dev":
+    # table_path = env_cfg["data"]["TABLE"]
+    # data = utils.load_df(table_path)
+    data = gs_utils.load_table(env, "BDD")
+else:  # "prod"
+    data = gs_utils.load_table(env, "BDD")
 
 ##################################################################
 #                         PRONOSTICS                             #
