@@ -24,19 +24,18 @@ L'application "BeMillionnaire" vient quant à elle appeller ces mêmes données 
 ├── 📁 .github
 │   └── 📁 workflows
 │       └── ⚙️ daily-update.yml             # Fichier d'automatisation via GithHub Pages
-├── 📁 logs
-│   └── 📄 scrap.log                        # Logs relatifs au recueil des données
-├── 📁 scripts
-│   └── 🐍 scrap.py                         # Script de scrapping des données
 ├── 📁 uv-env                               # Envrionnement virtuel UV-python
 │   ├── 📁 app
 │   │   ├── 📁 assets                       # Elements annexés au projet (img,photo,etc)
+│   │   ├── 📁 logs                         # Elements annexés au projet (img,photo,etc)
+│   │   │   └── 📄 scrap.log                # Logs relatifs au recueil des données
 │   │   ├── 📁 data
 │   │   │   └── 📄 BDD.csv                  # Base de données
 │   │   ├── 📁 pages
 │   │   │   ├── 🐍 0_Euromillion.py         # Page interactif de simulation
 │   │   │   ├── ...                         # Autres pages futures
 │   │   ├── 🐍 app.py                       # Application Streamlit
+│   │   ├── 🐍 script.py                    # Script de scrapping des données
 │   │   └── 🐍 utils.py                     # Fichier de fonctions
 │   │   └── 🐍 gs_utils.py                  # Fichier de fonctions relatif à GoogleSheet
 │   │   └── 🎨 style.css                    # Fichier de style des balises HTML
@@ -130,7 +129,7 @@ Sur Streamlit Community Cloud:
 
 # 🐍 Scraping
 
-Lancer le scraping manuellement: `cd uv-env && uv run python ../scripts/scrap.py`
+Lancer le scraping manuellement: `cd uv-env && uv run python scrap.py`
 
 Exemple de sortie:
 
