@@ -40,7 +40,7 @@ jobs:
           # utile si tu veux forcer un mode headless via variable
           PYTHONUNBUFFERED: "1"
         run: |
-          python ./scripts/scrap.py
+          python ./uv-env/app/scrap.py
 
       - name: Commit & push if changed
         run: |

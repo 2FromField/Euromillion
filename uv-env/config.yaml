@@ -1,4 +1,4 @@
-env: "dev" # ("dev", "prod")
+env: "prod" # ("dev", "prod")
 
 common:
   project_name: "euromillion"
