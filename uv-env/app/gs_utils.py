@@ -10,16 +10,17 @@ from pathlib import Path
 # --- Accès aux google sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
+BASE_DIR = Path(__file__).resolve().parent.parent  # .../uv-env
+CONFIG_PATH = BASE_DIR / "config.yaml"
 
-# Configuration de l'environnement
-def load_config(path: str | Path = "../config.yaml") -> dict:
-    path = Path(path)
+
+def load_config(path: Path = CONFIG_PATH) -> dict:
     with path.open("r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        return yaml.safe_load(f) or {}
 
 
 # Définition de l'environnement
-cfg = load_config("config.yaml")
+cfg = load_config()
 env = cfg.get("env", "dev")  # "dev" ou "prod"
 
 
