@@ -27,7 +27,7 @@ st.markdown(
 )
 
 # Configuration de l'environnement
-cfg = utils.load_config("config.yaml")
+cfg = utils.load_config()
 env = cfg.get("env", "dev")  # "dev" ou "prod"
 project_name = cfg["common"]["project_name"]  # euromillion
 env_cfg = cfg[env]  # Accès à la section env (dev/prod)

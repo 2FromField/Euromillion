@@ -4,15 +4,18 @@ from pathlib import Path
 import pandas as pd
 
 
-def load_config(path: str | Path = "config.yaml") -> dict:
-    path = Path(path)
+BASE_DIR = Path(__file__).resolve().parent.parent  # .../uv-env
+CONFIG_PATH = BASE_DIR / "config.yaml"
+
+
+def load_config(path: Path = CONFIG_PATH) -> dict:
     with path.open("r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        return yaml.safe_load(f) or {}
 
 
 @st.cache_data
 def get_cfg():
-    return load_config("config.yaml")
+    return load_config()
 
 
 def load_df(file_path):
