@@ -12,7 +12,7 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 
 # Configuration de l'environnement
-def load_config(path: str | Path = "config.yaml") -> dict:
+def load_config(path: str | Path = "../config.yaml") -> dict:
     path = Path(path)
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
