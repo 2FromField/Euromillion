@@ -163,7 +163,9 @@ _BDD_
 
 # 🚀 Roadmap (idées)
 
-...
+- Davantage de statistiques ? (probabilité, ML, etc.)
+- Faire d'autres jeux (Loto par exemple)
+- Mise en page aux couleurs des jeux
 
 ## 📬 Contact
 
