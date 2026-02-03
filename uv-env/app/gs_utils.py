@@ -3,14 +3,23 @@ import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import datetime as dt
-from . import utils
 import numpy as np
+import yaml
+from pathlib import Path
 
 # --- Accès aux google sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
+
 # Configuration de l'environnement
-cfg = utils.load_config("config.yaml")
+def load_config(path: str | Path = "config.yaml") -> dict:
+    path = Path(path)
+    with path.open("r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+# Définition de l'environnement
+cfg = load_config("config.yaml")
 env = cfg.get("env", "dev")  # "dev" ou "prod"
 
 

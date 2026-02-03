@@ -34,3 +34,12 @@
 2026-02-03 11:00:36,546 - root - WARNING - Tirage illisible le 2026-02-03 00:00:00: 
 2026-02-03 11:00:36,598 - root - INFO - Nouvelles données: 0       Date Gagnant        Jackpot  n1  n2  n3  n4  n5  e1  e2
 3 2026-01-30       1  123 555 827 €  14  18  31  35  46   7  11
+2026-02-03 11:41:27,706 - root - CRITICAL - Date du scrapping: 03/02/2026
+2026-02-03 11:41:27,708 - root - WARNING - Scrapping des données en mode 'prod'
+2026-02-03 11:41:27,710 - WDM - INFO - ====== WebDriver manager ======
+2026-02-03 11:41:35,057 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-02-03 11:41:35,223 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-02-03 11:41:35,283 - WDM - INFO - Driver [/Users/joeybruno/.wdm/drivers/chromedriver/mac64/144.0.7559.109/chromedriver-mac-x64/chromedriver] found in cache
+2026-02-03 11:41:40,560 - root - WARNING - Tirage illisible le 2026-02-03 00:00:00: 
+2026-02-03 11:41:40,598 - root - INFO - Nouvelles données: 0       Date Gagnant        Jackpot  n1  n2  n3  n4  n5  e1  e2
+3 2026-01-30       1  123 555 827 €  14  18  31  35  46   7  11
