@@ -35,12 +35,12 @@ jobs:
       - name: Setup Chromedriver
         uses: nanasess/setup-chromedriver@v2
 
-      - name: Run script
+      - name: Run scrap
         env:
-          # utile si tu veux forcer un mode headless via variable
-          PYTHONUNBUFFERED: "1"
+          PYTHONUNBUFFERED: "1" # forcer le mode headless
+        working-directory: Euromillion
         run: |
-          python ./uv-env/app/scrap.py
+          python uv-env/app/scrap.py
 
       - name: Commit & push if changed
         run: |
