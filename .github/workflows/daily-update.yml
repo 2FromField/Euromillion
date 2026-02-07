@@ -37,10 +37,10 @@ jobs:
 
       - name: Run scrap
         env:
-          PYTHONUNBUFFERED: "1" # forcer le mode headless
-        working-directory: Euromillion
+          PYTHONUNBUFFERED: "1"
+        working-directory: .
         run: |
-          python Euromillion/uv-env/app/scrap.py
+          python uv-env/app/scrap.py
 
       - name: Commit & push if changed
         run: |
