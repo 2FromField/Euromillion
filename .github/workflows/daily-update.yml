@@ -35,12 +35,14 @@ jobs:
       - name: Setup Chromedriver
         uses: nanasess/setup-chromedriver@v2
 
-      - name: Run scrap
+      - name: Run scrap (auto-detect)
         env:
           PYTHONUNBUFFERED: "1"
-        working-directory: .
         run: |
-          python uv-env/app/scrap.py
+          set -e
+          SCRAP_PATH="$(find . -type f -name 'scrap.py' | head -n 1)"
+          echo "Found: $SCRAP_PATH"
+          python "$SCRAP_PATH"
 
       - name: Commit & push if changed
         run: |
