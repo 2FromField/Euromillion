@@ -16,7 +16,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 import os
-import app.gs_utils as gs_utils
+import scrap_utils
 import yaml
 
 
@@ -67,9 +67,9 @@ logging.warning(f"Scrapping des données en mode '{env}'")
 if env == "dev":
     outpath = (ROOT / cfg[env]["data"]["TABLE"]).resolve()
     outpath.parent.mkdir(parents=True, exist_ok=True)
-    entire_df = gs_utils.load_table(env, "BDD")  # fichier CSV
+    entire_df = scrap_utils.load_table(env, "BDD")  # fichier CSV
 else:  # "prod"
-    entire_df = gs_utils.load_table(env, "BDD")  # Google Sheet
+    entire_df = scrap_utils.load_table(env, "BDD")  # Google Sheet
 
 # Télécharger et utiliser le bon ChromeDriver
 service = Service(ChromeDriverManager().install())
@@ -207,4 +207,4 @@ if save:
         row_dict["Date"] = row_dict["Date"].strftime(
             "%d/%m/%Y"
         )  # modifier la date au bon format
-        gs_utils.append_rows_sheet([row_dict], "BDD")
+        scrap_utils.append_rows_sheet([row_dict], "BDD")
