@@ -6,6 +6,7 @@ import datetime as dt
 import numpy as np
 import yaml
 from pathlib import Path
+import os
 
 # --- Accès aux google sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
@@ -24,10 +25,47 @@ cfg = load_config()
 env = cfg.get("env", "dev")  # "dev" ou "prod"
 
 
+def _get_streamlit_secrets() -> dict:
+    try:
+        return st.secrets
+    except Exception:
+        return {}
+
+
+# Gestion des secrets -> "prod" en env et "dev" en st.secrets
+def get_secret(key: str, default=None, required: bool = True):
+    st_secrets = _get_streamlit_secrets()
+
+    def from_st():
+        v = st_secrets.get(key, None)
+        if v is None:
+            return None
+        v = str(v)
+        return v if v.strip() else None
+
+    def from_env():
+        v = os.getenv(key)
+        return v if v and v.strip() else None
+
+    # Priorité selon env
+    if env == "prod":
+        val = from_env() or from_st()
+    else:  # dev
+        val = from_st() or from_env()
+
+    if val is None:
+        if required:
+            raise KeyError(f"Missing secret: {key} (env={env})")
+        return default
+
+    return val
+
+
 @st.cache_resource
 def _gspread_client():
     "Chargement des crédentials GCP"
-    creds = Credentials.from_service_account_info(st.secrets["gcp"], scopes=SCOPES)
+    # creds = Credentials.from_service_account_info(st.secrets["gcp"], scopes=SCOPES)
+    creds = Credentials.from_service_account_info(get_secret("gcp"), scopes=SCOPES)
     return gspread.authorize(creds)
 
 
@@ -46,7 +84,8 @@ def load_table(env: str, table: str) -> pd.DataFrame:
     """Chargement des données dev/prod, mis en cache par Streamlit."""
     if env == "prod":
         # SHEET_ID vient de .streamlit/secrets.toml, section [prod]
-        sheet_id = st.secrets["prod"]["SHEET_ID"]
+        # sheet_id = st.secrets["prod"]["SHEET_ID"]
+        sheet_id = get_secret("SHEET_ID")
 
         # à adapter : ici tu utilises _ws pour récupérer la worksheet
         ws = _ws(sheet_id, table)  # ou autre nom d’onglet
@@ -55,7 +94,8 @@ def load_table(env: str, table: str) -> pd.DataFrame:
 
     elif env == "dev":
         # BDD depuis un fichier CSV
-        paths = st.secrets["dev"]
+        # paths = st.secrets["BDD"]
+        paths = get_secret("BDD")
         df = pd.read_csv(paths[table], sep=";")
 
     else:
@@ -93,7 +133,8 @@ def append_rows_sheet(rows: list[dict], worksheet="Feuille1"):
     if not rows:
         return
 
-    ws = _ws(st.secrets["prod"]["SHEET_ID"], worksheet)
+    # ws = _ws(st.secrets["prod"]["SHEET_ID"], worksheet)
+    ws = _ws(get_secret("SHEET_ID"), worksheet)
 
     # Récupérer / créer les headers
     headers = ws.row_values(1)
