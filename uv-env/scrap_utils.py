@@ -22,7 +22,7 @@ def load_config(path: Path = CONFIG_PATH) -> dict:
 
 
 # Définition de l'environnement
-cfg = load_config()
+cfg = load_config(Path("uv-env/config.yaml"))
 env = cfg.get("env", "dev")  # "dev" ou "prod"
 
 
