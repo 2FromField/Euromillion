@@ -11,11 +11,11 @@ import os
 # --- Accès aux google sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
-CONFIG_PATH = Path(__file__).resolve().parents[1] / "uv-env/config.yaml"
+CONFIG_PATH = Path(__file__).resolve().parent / "config.yaml"
 
 
 def load_config(path: Path = CONFIG_PATH) -> dict:
-    path = Path(path)  # au cas où on passe une string
+    path = Path(path)
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
