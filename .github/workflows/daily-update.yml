@@ -39,7 +39,7 @@ jobs:
         env:
           PYTHONUNBUFFERED: "1"
           SHEET_ID: ${{ secrets.SHEET_ID }}
-          GCP: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCP: ${{ secrets.GCP }}
         run: |
           set -e
           SCRAP_PATH="$(find . -type f -name 'scrap.py' | head -n 1)"
