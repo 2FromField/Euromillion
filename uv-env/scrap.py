@@ -77,7 +77,7 @@ logging.warning(f"Scrapping des données en mode '{env}'")
 @st.cache_resource
 def _gspread_client():
     "Chargement des crédentials GCP"
-    sa_json = os.environ["GCP_SERVICE_ACCOUNT_JSON"]  # ou "GCP"
+    sa_json = os.environ["GCP"]  # ou "GCP"
     sa_info = json.loads(sa_json)  # <-- dict
     creds = Credentials.from_service_account_info(sa_info, scopes=SCOPES)
     return gspread.authorize(creds)
