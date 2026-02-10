@@ -278,7 +278,9 @@ for year in tqdm(years, desc=f"Récupération des données..."):
             existing_dates.update(df_new["Date"].dropna())
 
             # Drop colonnes inutiles
-            df_new = df_new.drop(columns=["Tirage"], errors="ignore")
+            df_new = df_new.drop(columns=["Tirage"], errors="ignore").reset_index(
+                drop=True
+            )
 
     except Exception as e:
         date_safe = (
@@ -292,7 +294,7 @@ for year in tqdm(years, desc=f"Récupération des données..."):
     if not df_new.empty:
         # Ajouter les nouvelles lignes
         df_all = pd.concat([df_all, df_new], ignore_index=True)
-        logging.info(f"Nouvelles données: {df_new}")
+        logging.info(f"Nouvelles données:\n {df_new}")
         save = True
     else:
         save = False
@@ -310,11 +312,16 @@ if save:
         # Sauvegarder les données au format CSV
         df_all.to_csv(outpath, sep=";", index=False, mode="a", header=None)
     else:  # "prod"
-        row_list = df_new.squeeze().tolist()  # nouvelle ligne
         cols = ["Date", "Gagnant", "Jackpot", "n1", "n2", "n3", "n4", "n5", "e1", "e2"]
-        row_dict = dict(zip(cols, row_list))  # conversion en dictionnaire
-        row_dict["Jackpot"] = str(row_dict["Jackpot"])
-        row_dict["Date"] = row_dict["Date"].strftime(
-            "%d/%m/%Y"
-        )  # modifier la date au bon format
-        append_rows_sheet([row_dict], "BDD")
+        rows = []
+
+        for _, r in df_new.iterrows():
+            d = {c: r[c] for c in cols}
+
+            # conversions
+            d["Jackpot"] = str(d["Jackpot"])
+            d["Date"] = d["Date"].strftime("%d/%m/%Y")  # si Date est bien un datetime
+
+            rows.append(d)
+
+        append_rows_sheet(rows, "BDD")
