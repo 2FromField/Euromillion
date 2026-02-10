@@ -11,7 +11,8 @@ import os
 # --- Accès aux google sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
-CONFIG_PATH = Path(__file__).resolve().parent / "config.yaml"
+CONFIG_PATH = Path(__file__).resolve().with_name("config.yaml")
+# -> .../uv-env/config.yaml
 
 
 def load_config(path: Path = CONFIG_PATH) -> dict:
