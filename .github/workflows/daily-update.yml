@@ -39,12 +39,6 @@ jobs:
         env:
           PYTHONUNBUFFERED: "1"
         run: |
-          pwd
-          git rev-parse HEAD
-          ls -la
-          ls -la uv-env || true
-          ls -la uv-env/config.yaml || true
-          sed -n '1,80p' uv-env/scrap_utils.py
           set -e
           SCRAP_PATH="$(find . -type f -name 'scrap.py' | head -n 1)"
           echo "Found: $SCRAP_PATH"
