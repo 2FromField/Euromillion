@@ -51,15 +51,17 @@ options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
+CONFIG_PATH = Path(__file__).resolve().with_name("config.yaml")
+
 
 # Environnement ("dev" OU "prod")
-def load_config(path: str | Path = "config.yaml") -> dict:
+def load_config(path: str | Path = CONFIG_PATH) -> dict:
     path = Path(path)
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
-cfg = load_config("config.yaml")
+cfg = load_config()
 env = cfg.get("env", "dev")  # "dev" ou "prod"
 logging.warning(f"Scrapping des données en mode '{env}'")
 

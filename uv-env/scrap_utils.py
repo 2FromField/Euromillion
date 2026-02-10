@@ -6,8 +6,6 @@ import datetime as dt
 import numpy as np
 import yaml
 from pathlib import Path
-import os
-import inspect
 
 # --- Accès aux google sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
@@ -15,15 +13,9 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 CONFIG_PATH = Path(__file__).resolve().with_name("config.yaml")
 # -> .../uv-env/config.yaml
 
-print("=== LOADED scrap_utils ===")
-print("scrap_utils file:", Path(__file__).resolve())
-print("scrap_utils first line:", inspect.getsourcefile(lambda: None))
-
 
 def load_config(path: Path = CONFIG_PATH) -> dict:
     path = Path(path)
-    print("CONFIG_PATH used:", path)
-    print("CONFIG exists:", path.exists())
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
