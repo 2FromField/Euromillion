@@ -20,8 +20,6 @@ def load_config(path: Path = CONFIG_PATH) -> dict:
         return yaml.safe_load(f) or {}
 
 
-print(CONFIG_PATH)
-
 # Définition de l'environnement
 cfg = load_config()
 env = cfg.get("env", "dev")  # "dev" ou "prod"
