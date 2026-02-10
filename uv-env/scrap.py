@@ -16,7 +16,6 @@ import logging
 from datetime import datetime
 from pathlib import Path
 import os
-import scrap_utils
 import yaml
 import streamlit as st
 from google.oauth2.service_account import Credentials
@@ -180,9 +179,9 @@ def append_rows_sheet(rows: list[dict], worksheet="Feuille1"):
 if env == "dev":
     outpath = (ROOT / cfg[env]["data"]["TABLE"]).resolve()
     outpath.parent.mkdir(parents=True, exist_ok=True)
-    entire_df = scrap_utils.load_table(env, "BDD")  # fichier CSV
+    entire_df = load_table(env, "BDD")  # fichier CSV
 else:  # "prod"
-    entire_df = scrap_utils.load_table(env, "BDD")  # Google Sheet
+    entire_df = load_table(env, "BDD")  # Google Sheet
 
 # Télécharger et utiliser le bon ChromeDriver
 service = Service(ChromeDriverManager().install())
@@ -320,4 +319,4 @@ if save:
         row_dict["Date"] = row_dict["Date"].strftime(
             "%d/%m/%Y"
         )  # modifier la date au bon format
-        scrap_utils.append_rows_sheet([row_dict], "BDD")
+        append_rows_sheet([row_dict], "BDD")
