@@ -1,16 +1,8 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import (
-    TimeoutException,
-    ElementClickInterceptedException,
-)
-from selenium.webdriver.safari.options import Options
 from selenium import webdriver
 import pandas as pd
-import time
 from tqdm import tqdm
 import logging
 from datetime import datetime
@@ -21,6 +13,7 @@ import streamlit as st
 from google.oauth2.service_account import Credentials
 import gspread
 import numpy as np
+import datetime as dt
 
 
 #######################################################
@@ -58,17 +51,19 @@ options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
-CONFIG_PATH = Path(__file__).resolve().with_name("config.yaml")
-
 
 #######################################################
 ##                      ENV                          ##
 #######################################################
 
+CONFIG_PATH = Path(__file__).resolve().with_name("config.yaml")
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
-# Environnement ("dev" OU "prod")
-def load_config(path: str | Path = CONFIG_PATH) -> dict:
+
+def load_config(path: Path = CONFIG_PATH) -> dict:
     path = Path(path)
+    print("CONFIG_PATH used:", path)
+    print("CONFIG exists:", path.exists())
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
