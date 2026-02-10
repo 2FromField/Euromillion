@@ -20,6 +20,11 @@ import scrap_utils
 import yaml
 
 
+print("CWD:", Path.cwd())
+print("__file__:", Path(__file__).resolve())
+print("LIST uv-env:", list((Path(__file__).resolve().parent).iterdir()))
+
+
 # Chemnin relatif au dépot Git
 ROOT = Path(os.getenv("GITHUB_WORKSPACE", Path(__file__).resolve().parents[1]))
 
