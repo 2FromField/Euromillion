@@ -11,8 +11,7 @@ import os
 # --- Accès aux google sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
-BASE_DIR = Path(__file__).resolve().parent  # dossier du script
-CONFIG_PATH = BASE_DIR / "config.yaml"
+CONFIG_PATH = Path(__file__).resolve().parents[1] / "uv-env/config.yaml"
 
 
 def load_config(path: Path = CONFIG_PATH) -> dict:
@@ -21,8 +20,10 @@ def load_config(path: Path = CONFIG_PATH) -> dict:
         return yaml.safe_load(f) or {}
 
 
+print(CONFIG_PATH)
+
 # Définition de l'environnement
-cfg = load_config(Path("uv-env/config.yaml"))
+cfg = load_config()
 env = cfg.get("env", "dev")  # "dev" ou "prod"
 
 
