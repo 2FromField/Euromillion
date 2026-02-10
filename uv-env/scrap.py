@@ -50,18 +50,7 @@ options = webdriver.ChromeOptions()
 options.add_argument("--headless")  # Mode headless
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
-
-if os.getenv("GITHUB_ACTIONS") == "true":
-    # sur Ubuntu runner, Chrome est généralement ici après setup-chrome
-    options.binary_location = os.getenv(
-        "CHROME_PATH"
-    )  # setup-chrome exporte souvent ça
-else:
-    # local Mac (optionnel) : laisse Selenium trouver Chrome automatiquement,
-    options.binary_location = (
-        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-    )
-    pass
+# options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 
 #######################################################
