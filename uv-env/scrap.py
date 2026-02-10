@@ -282,6 +282,9 @@ for year in tqdm(years, desc=f"Récupération des données..."):
                 drop=True
             )
 
+            # Trier de la date la plus ancienne à la plus récente
+            df_new = df_new.sort_values(by="Date", ascending=True)
+
     except Exception as e:
         date_safe = (
             df["Date"].iloc[0] if "Date" in df.columns and len(df) > 0 else "unknown"
