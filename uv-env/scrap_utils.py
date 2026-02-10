@@ -11,8 +11,12 @@ import os
 # --- Accès aux google sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
+BASE_DIR = Path(__file__).resolve().parent  # dossier du script
+CONFIG_PATH = BASE_DIR / "config.yaml"
 
-def load_config(path: Path = "config.yaml") -> dict:
+
+def load_config(path: Path = CONFIG_PATH) -> dict:
+    path = Path(path)  # au cas où on passe une string
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
