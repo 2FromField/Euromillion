@@ -44,29 +44,6 @@ else:  # "prod"
 #                         PRONOSTICS                             #
 ##################################################################
 
-GRID_CSS_6_DESKTOP_4_MOBILE = """
-/* IMPORTANT: scope sur ce container uniquement */
-div[data-testid="stHorizontalBlock"]{
-  flex-wrap: wrap !important;
-  gap: 0.35rem !important;
-}
-div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
-  flex: 0 0 calc(16.666% - 0.35rem) !important; /* 6 par ligne desktop */
-  min-width: 0 !important;
-  padding: 0 !important;
-}
-@media (max-width: 640px){
-  div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
-    flex: 0 0 calc(25% - 0.35rem) !important;   /* 4 par ligne mobile */
-  }
-}
-/* centrer le contenu (boutons) */
-div[data-testid="stColumn"] > div{
-  display: flex;
-  justify-content: center;
-}
-"""
-
 st.markdown(
     f"<h1 style='margin-bottom:30px color: gold;'>Mes Pronostics</h1>",
     unsafe_allow_html=True,
@@ -95,50 +72,49 @@ def toggle_star(i):
     st.session_state[k] = not st.session_state.get(k, False)
 
 
-with stylable_container("grid_nums", css_styles=GRID_CSS_6_DESKTOP_4_MOBILE):
-    # Numéros
-    for row_start in range(1, N_NUM + 1, COLS_NUM):  # 1, 11, 21, 31, 41
-        cols = st.columns(COLS_NUM)
-        for j in range(COLS_NUM):
-            i = row_start + j
-            if i > N_NUM:
-                break
+# Numéros
+for row_start in range(1, N_NUM + 1, COLS_NUM):  # 1, 11, 21, 31, 41
+    cols = st.columns(COLS_NUM)
+    for j in range(COLS_NUM):
+        i = row_start + j
+        if i > N_NUM:
+            break
 
-            state_key = f"enabled_{i}"
-            enabled = st.session_state[state_key]
+        state_key = f"enabled_{i}"
+        enabled = st.session_state[state_key]
 
-            with cols[j]:
-                with stylable_container(
-                    f"btn_wrap_{i}", css_styles=utils.button_css(enabled)
-                ):
-                    st.button(
-                        str(i),
-                        key=f"toggle_{i}",
-                        on_click=toggle_num,
-                        args=(i,),
-                    )
+        with cols[j]:
+            with stylable_container(
+                f"btn_wrap_{i}", css_styles=utils.button_css(enabled)
+            ):
+                st.button(
+                    str(i),
+                    key=f"toggle_{i}",
+                    on_click=toggle_num,
+                    args=(i,),
+                )
 
-    # Etoiles
-    for row_start in range(1, N_STAR + 1, COLS_STAR):  # 1, 11, 21, 31, 41
-        cols = st.columns(COLS_STAR)
-        for j in range(COLS_STAR):
-            i = row_start + j
-            if i > N_STAR:
-                break
+# Etoiles
+for row_start in range(1, N_STAR + 1, COLS_STAR):  # 1, 11, 21, 31, 41
+    cols = st.columns(COLS_STAR)
+    for j in range(COLS_STAR):
+        i = row_start + j
+        if i > N_STAR:
+            break
 
-            state_key = f"enabled_star_{i}"
-            enabled = st.session_state[state_key]
+        state_key = f"enabled_star_{i}"
+        enabled = st.session_state[state_key]
 
-            with cols[j]:
-                with stylable_container(
-                    f"btn_star_{i}", css_styles=utils.star_css(enabled)
-                ):
-                    st.button(
-                        str(i),
-                        key=f"toggle_star_{i}",
-                        on_click=toggle_star,
-                        args=(i,),
-                    )
+        with cols[j]:
+            with stylable_container(
+                f"btn_star_{i}", css_styles=utils.star_css(enabled)
+            ):
+                st.button(
+                    str(i),
+                    key=f"toggle_star_{i}",
+                    on_click=toggle_star,
+                    args=(i,),
+                )
 
 # Récupération des états "true" (numéros et étoiles sélectionnées)
 nb_true = {
@@ -148,8 +124,11 @@ stars_true = {
     i for i in range(1, N_STAR + 1) if st.session_state.get(f"enabled_star_{i}", False)
 }
 
-# Ma séléction
-utils.render("Ma sélection :", nb_true, stars_true)
+# Affichage de la sélection
+b1, b2, b3 = st.columns([1, 4, 1], gap="small")
+with b2:
+    # Exemple d'affichage
+    utils.render("Ma sélection :", nb_true, stars_true)
 
 
 def transform_to_list(numbers):
