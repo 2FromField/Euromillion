@@ -47,25 +47,34 @@ else:  # "prod"
 st.markdown(
     """
 <style>
-/* --- Desktop / grand écran : 6 par ligne --- */
+/* conteneur des colonnes */
 div[data-testid="stHorizontalBlock"]{
-  flex-wrap: wrap !important;      /* IMPORTANT: wrap => pas de scroll horizontal */
-  gap: 0.35rem;
-}
-div[data-testid="column"]{
-  flex: 0 0 calc(16.666% - 0.35rem) !important; /* 6 colonnes */
-  min-width: 0 !important;
-}
-div[data-testid="column"] > div{
-  display: flex;
-  justify-content: center;
+  flex-wrap: wrap !important;     /* permet plusieurs lignes */
+  gap: 0.35rem !important;
 }
 
-/* --- Mobile : 4 par ligne --- */
+/* une "colonne" streamlit */
+div[data-testid="stColumn"]{
+  padding: 0 !important;
+  min-width: 0 !important;
+}
+
+/* Desktop : 6 par ligne */
+div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
+  flex: 0 0 calc(16.666% - 0.35rem) !important;  /* 100/6 */
+}
+
+/* Mobile : 4 par ligne */
 @media (max-width: 640px){
-  div[data-testid="column"]{
-    flex: 0 0 calc(25% - 0.35rem) !important;   /* 4 colonnes */
+  div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
+    flex: 0 0 calc(25% - 0.35rem) !important;     /* 100/4 */
   }
+}
+
+/* centre les boutons dans chaque colonne */
+div[data-testid="stColumn"] > div {
+  display: flex;
+  justify-content: center;
 }
 </style>
 """,
