@@ -45,15 +45,40 @@ else:  # "prod"
 ##################################################################
 
 st.markdown(
+    """
+<style>
+/* Empêche les colonnes Streamlit de passer en "stack" sur petits écrans */
+div[data-testid="stHorizontalBlock"]{
+  flex-wrap: nowrap !important;
+  gap: 0.35rem; /* ajuste l'espace entre boutons */
+}
+
+/* Chaque colonne prend une largeur égale */
+div[data-testid="column"]{
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+}
+
+/* Centre le contenu des colonnes (tes boutons) */
+div[data-testid="column"] > div {
+  display: flex;
+  justify-content: center;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+st.markdown(
     f"<h1 style='margin-bottom:30px color: gold;'>Mes Pronostics</h1>",
     unsafe_allow_html=True,
 )
 
 # Variables
 N_NUM = 50
-COLS_NUM = 6  # 10 boutons par ligne
+COLS_NUM = 4  # 4 boutons par ligne
 N_STAR = 12
-COLS_STAR = 6
+COLS_STAR = 4
 
 # Initialisation des états des numéros/étoiles
 for i in range(1, N_NUM + 1):
