@@ -47,22 +47,25 @@ else:  # "prod"
 st.markdown(
     """
 <style>
-/* Empêche les colonnes Streamlit de passer en "stack" sur petits écrans */
+/* --- Desktop / grand écran : 6 par ligne --- */
 div[data-testid="stHorizontalBlock"]{
-  flex-wrap: nowrap !important;
-  gap: 0.35rem; /* ajuste l'espace entre boutons */
+  flex-wrap: wrap !important;      /* IMPORTANT: wrap => pas de scroll horizontal */
+  gap: 0.35rem;
 }
-
-/* Chaque colonne prend une largeur égale */
 div[data-testid="column"]{
-  flex: 1 1 0 !important;
+  flex: 0 0 calc(16.666% - 0.35rem) !important; /* 6 colonnes */
   min-width: 0 !important;
 }
-
-/* Centre le contenu des colonnes (tes boutons) */
-div[data-testid="column"] > div {
+div[data-testid="column"] > div{
   display: flex;
   justify-content: center;
+}
+
+/* --- Mobile : 4 par ligne --- */
+@media (max-width: 640px){
+  div[data-testid="column"]{
+    flex: 0 0 calc(25% - 0.35rem) !important;   /* 4 colonnes */
+  }
 }
 </style>
 """,
