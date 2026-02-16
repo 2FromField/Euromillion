@@ -72,49 +72,68 @@ def toggle_star(i):
     st.session_state[k] = not st.session_state.get(k, False)
 
 
-# Numéros
-for row_start in range(1, N_NUM + 1, COLS_NUM):  # 1, 11, 21, 31, 41
-    cols = st.columns(COLS_NUM)
-    for j in range(COLS_NUM):
-        i = row_start + j
-        if i > N_NUM:
-            break
+st.markdown(
+    """
+<style>
+/* scope uniquement sur la zone .st-key-grid_loto */
+.st-key-grid_loto div[data-testid="stHorizontalBlock"]{
+  width: 100% !important;
+  flex-wrap: wrap !important;
+  gap: 0.35rem !important;
+}
 
-        state_key = f"enabled_{i}"
-        enabled = st.session_state[state_key]
+.st-key-grid_loto div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
+  flex: 0 0 calc(16.666% - 0.35rem) !important; /* 6 desktop */
+  min-width: 0 !important;
+  padding: 0 !important;
+}
 
-        with cols[j]:
-            with stylable_container(
-                f"btn_wrap_{i}", css_styles=utils.button_css(enabled)
-            ):
-                st.button(
-                    str(i),
-                    key=f"toggle_{i}",
-                    on_click=toggle_num,
-                    args=(i,),
-                )
+@media (max-width: 640px){
+  .st-key-grid_loto div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
+    flex: 0 0 calc(25% - 0.35rem) !important;   /* 4 mobile */
+  }
+}
 
-# Etoiles
-for row_start in range(1, N_STAR + 1, COLS_STAR):  # 1, 11, 21, 31, 41
-    cols = st.columns(COLS_STAR)
-    for j in range(COLS_STAR):
-        i = row_start + j
-        if i > N_STAR:
-            break
+.st-key-grid_loto div[data-testid="stColumn"] > div{
+  display: flex;
+  justify-content: center;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
 
-        state_key = f"enabled_star_{i}"
-        enabled = st.session_state[state_key]
+with st.container(key="grid_loto"):
+    # --- Numéros ---
+    for row_start in range(1, N_NUM + 1, COLS_NUM):
+        cols = st.columns(COLS_NUM)
+        for j in range(COLS_NUM):
+            i = row_start + j
+            if i > N_NUM:
+                break
+            enabled = st.session_state[f"enabled_{i}"]
+            with cols[j]:
+                # garde ton stylable_container uniquement pour le style du bouton
+                with stylable_container(
+                    f"btn_wrap_{i}", css_styles=utils.button_css(enabled)
+                ):
+                    st.button(str(i), key=f"toggle_{i}", on_click=toggle_num, args=(i,))
 
-        with cols[j]:
-            with stylable_container(
-                f"btn_star_{i}", css_styles=utils.star_css(enabled)
-            ):
-                st.button(
-                    str(i),
-                    key=f"toggle_star_{i}",
-                    on_click=toggle_star,
-                    args=(i,),
-                )
+    # --- Etoiles ---
+    for row_start in range(1, N_STAR + 1, COLS_STAR):
+        cols = st.columns(COLS_STAR)
+        for j in range(COLS_STAR):
+            i = row_start + j
+            if i > N_STAR:
+                break
+            enabled = st.session_state[f"enabled_star_{i}"]
+            with cols[j]:
+                with stylable_container(
+                    f"btn_star_{i}", css_styles=utils.star_css(enabled)
+                ):
+                    st.button(
+                        str(i), key=f"toggle_star_{i}", on_click=toggle_star, args=(i,)
+                    )
 
 # Récupération des états "true" (numéros et étoiles sélectionnées)
 nb_true = {
