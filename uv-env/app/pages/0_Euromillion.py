@@ -77,23 +77,27 @@ st.markdown(
 <style>
 /* scope uniquement sur la zone .st-key-grid_loto */
 .st-key-grid_loto div[data-testid="stHorizontalBlock"]{
-  width: 100% !important;
+  width: fit-content !important;     /* prend la largeur exacte de la grille */
+  margin: 0 auto !important;         /* centre horizontalement */
   flex-wrap: wrap !important;
   gap: 0.35rem !important;
 }
 
+/* 6 desktop */
 .st-key-grid_loto div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
-  flex: 0 0 calc(16.666% - 0.35rem) !important; /* 6 desktop */
+  flex: 0 0 calc(16.666% - 0.35rem) !important;
   min-width: 0 !important;
   padding: 0 !important;
 }
 
+/* 4 mobile */
 @media (max-width: 640px){
   .st-key-grid_loto div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
-    flex: 0 0 calc(25% - 0.35rem) !important;   /* 4 mobile */
+    flex: 0 0 calc(25% - 0.35rem) !important;
   }
 }
 
+/* centre le bouton dans chaque case */
 .st-key-grid_loto div[data-testid="stColumn"] > div{
   display: flex;
   justify-content: center;
