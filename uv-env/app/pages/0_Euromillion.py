@@ -76,9 +76,14 @@ st.markdown(
     """
 <style>
 /* scope uniquement sur la zone .st-key-grid_loto */
+.st-key-grid_loto{
+  padding: 0 16px !important;     /* <-- espace à gauche/droite */
+}
+
+/* centre chaque ligne de colonnes */
 .st-key-grid_loto div[data-testid="stHorizontalBlock"]{
-  width: fit-content !important;     /* prend la largeur exacte de la grille */
-  margin: 0 auto !important;         /* centre horizontalement */
+  width: fit-content !important;
+  margin: 0 auto !important;
   flex-wrap: wrap !important;
   gap: 0.35rem !important;
 }
@@ -101,7 +106,6 @@ st.markdown(
 .st-key-grid_loto div[data-testid="stColumn"] > div{
   display: flex;
   justify-content: center;
-  gap: 5%;
 }
 </style>
 """,
