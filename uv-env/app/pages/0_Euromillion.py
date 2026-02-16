@@ -101,6 +101,7 @@ st.markdown(
 .st-key-grid_loto div[data-testid="stColumn"] > div{
   display: flex;
   justify-content: center;
+  gap: 5%;
 }
 </style>
 """,
