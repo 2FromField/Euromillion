@@ -15,7 +15,7 @@ L'application "BeMillionnaire" vient quant à elle appeller ces mêmes données 
 # ✨ Fonctionnalités
 
 - Possibilité de simuler son prochain pronostic de l'Euromillion
-- Statistiques interactifs selon vos pronostics
+- Statistiques interactives selon vos pronostics (basée sur l'historique)
 - Historique des tirages officiels de l'Euromillion
 
 # 🗂️ Arborescence
@@ -67,22 +67,11 @@ L'application "BeMillionnaire" vient quant à elle appeller ces mêmes données 
 
 1. Cloner: `git clone https://github.com/2FromField/$REPO.git && cd env-uv`
 
-2. Python 3.10+ recommandé: `python -m venv .venv && source .venv/bin/activate # Windows: .venv\Scripts\activate`
+2. Installer les dépendances et synchroniser: `uv add -r requirements.txt && uv sync`
 
-3. Dépendances: `pip install -r requirements.txt`
+3. Secrets: créez .streamlit/secrets.toml comme ci-après.
 
-4. Secrets: créez .streamlit/secrets.toml comme ci-dessous
-
-5. Lancer: `uv run streamlit run app/app.py`
-
-# 🔐 Google Cloud & Google Sheets (accès service account)
-
-1. Créer un Service Account (GCP → IAM & Admin → Service Accounts) et générer une clé JSON.
-2. Dans Google Sheets, partager le document à l’e-mail du service account (le compte doit avoir au moins Éditeur sur le fichier).
-3. Notez l’ID du Sheet, l’URL ressemble à `https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit#gid=0` et <SHEET_ID> est la valeur à copier.
-4. Onglets requis dans votre fichier (exemples) :
-
-- BDD: Date, Gagnant, Jackpot, n1, n2, n3, n4, n5, e1, e2
+4. Lancer l'application en localhost: `uv run streamlit run app/app.py`
 
 # 🔑 Secrets (local & cloud)
 
@@ -91,8 +80,6 @@ En local, créez `.streamlit/secrets.toml` pour y stocker vos données sensibles
 ```
 [prod]
 SHEET_ID = "<votre_sheet_id>"
-[dev]
-BDD = "path/to/BDD.csv"
 [gcp]
 type = "service_account"
 project_id = "<...>"
@@ -110,6 +97,15 @@ Sur Streamlit Community Cloud:
 1. Dans Manage App → Settings → Secrets, collez le même contenu (YAML/TOML-like).
 2. Ajoutez SHEET_ID et le bloc [gcp].
 
+# 🔐 Google Cloud & Google Sheets (accès service account)
+
+1. Créer un Service Account (GCP → IAM & Admin → Service Accounts) et générer une clé JSON.
+2. Dans Google Sheets, partager le document à l’e-mail du service account (le compte doit avoir au moins Éditeur sur le fichier).
+3. Notez l’ID du Sheet, l’URL ressemble à `https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit#gid=0` et <SHEET_ID> est la valeur à copier.
+4. Onglets requis dans votre fichier (exemples) :
+
+- BDD: Date, Gagnant, Jackpot, n1, n2, n3, n4, n5, e1, e2
+
 # ☁️ Déploiement — Streamlit Community Cloud
 
 1. Poussez le code sur GitHub (branche main de préférence).
@@ -126,6 +122,58 @@ Sur Streamlit Community Cloud:
   Ainsi qu'un `runtime.txt` avec python-3.10.
 
 6. Déployez. L’URL aura la forme https://<app-name>-<user>.streamlit.app.
+
+# ⏰ Automation
+
+1. Créer le fichier:
+
+```
+.github/
+  workflows/
+    ci.yml
+```
+
+2. Exemple de `ci/yaml`:
+
+```
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Récupère le code du dépôt dans la machine GitHub
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Installe uv (et active le cache pour accélérer les runs)
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+          enable-cache: true
+
+      # 3) Installe la version de Python demandée
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 4) Installe les dépendances EXACTES du projet depuis uv.lock
+      # --frozen = refuse de modifier le lockfile (sécurité CI)
+      - name: Install dependencies (locked)
+        run: uv sync --frozen
+
+      # 5) Lance la suite de tests
+      - name: Run tests
+        run: uv run pytest -q
+```
 
 # 🐍 Scraping
 
@@ -166,6 +214,12 @@ _BDD_
 - Davantage de statistiques ? (probabilité, ML, etc.)
 - Faire d'autres jeux (Loto par exemple)
 - Mise en page aux couleurs des jeux
+
+## 📬 Contact
+
+[![GitHub](https://img.shields.io/badge/2FromField-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/2FromField)
+[![Linkedin](https://img.shields.io/badge/LinkedIn:_BRUNO_Joey-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](www.linkedin.com/in/joey-bruno-076390223)
+
 
 ## 📬 Contact
 
