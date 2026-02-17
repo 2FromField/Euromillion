@@ -219,9 +219,3 @@ _BDD_
 
 [![GitHub](https://img.shields.io/badge/2FromField-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/2FromField)
 [![Linkedin](https://img.shields.io/badge/LinkedIn:_BRUNO_Joey-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](www.linkedin.com/in/joey-bruno-076390223)
-
-
-## 📬 Contact
-
-[![GitHub](https://img.shields.io/badge/2FromField-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/2FromField)
-[![Linkedin](https://img.shields.io/badge/LinkedIn:_BRUNO_Joey-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](www.linkedin.com/in/joey-bruno-076390223)
