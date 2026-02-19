@@ -88,6 +88,10 @@ st.markdown(
   gap: 0.35rem !important;
 }
 
+.st-key-grid_loto div[data-testid="stColumn"]{
+  padding: 0.15rem !important;
+}
+
 /* 6 desktop */
 .st-key-grid_loto div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]{
   flex: 0 0 calc(16.666% - 0.35rem) !important;
