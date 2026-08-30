@@ -2812,3 +2812,17 @@
 2026-08-29 12:39:52,529 - root - INFO - Nouvelles données:
  0       Date Gagnant       Jackpot  n1  n2  n3  n4  n5  e1  e2
 0 2026-08-28       0  69 603 022 €   7  14  28  42  45   6   9
+2026-08-30 11:51:38,496 - root - CRITICAL - Date du scrapping: 30/08/2026
+2026-08-30 11:51:38,497 - root - WARNING - Scrapping des données en mode 'prod'
+2026-08-30 11:51:39,883 - WDM - INFO - ====== WebDriver manager ======
+2026-08-30 11:51:39,955 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-08-30 11:51:40,023 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-08-30 11:51:40,067 - WDM - INFO - There is no [linux64] chromedriver "151.0.7922.138" for browser google-chrome "151.0.7922" in cache
+2026-08-30 11:51:40,068 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-08-30 11:51:40,246 - WDM - INFO - WebDriver version 151.0.7922.138 selected
+2026-08-30 11:51:40,252 - WDM - INFO - Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/151.0.7922.138/linux64/chromedriver-linux64.zip
+2026-08-30 11:51:40,253 - WDM - INFO - About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/151.0.7922.138/linux64/chromedriver-linux64.zip
+2026-08-30 11:51:40,319 - WDM - INFO - Driver downloading response is 200
+2026-08-30 11:51:40,419 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-08-30 11:51:40,595 - WDM - INFO - Driver has been saved in cache [/home/runner/.wdm/drivers/chromedriver/linux64/151.0.7922.138]
+2026-08-30 11:51:47,117 - root - WARNING - Pas de nouveaux tirages à ajouter
