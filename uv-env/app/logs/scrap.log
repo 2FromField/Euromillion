@@ -2885,3 +2885,18 @@
 2026-09-03 11:09:51,330 - WDM - INFO - Get LATEST chromedriver version for google-chrome
 2026-09-03 11:09:51,528 - WDM - INFO - Driver has been saved in cache [/home/runner/.wdm/drivers/chromedriver/linux64/151.0.7922.138]
 2026-09-03 11:10:03,971 - root - WARNING - Pas de nouveaux tirages à ajouter
+2026-09-04 11:13:41,519 - root - CRITICAL - Date du scrapping: 04/09/2026
+2026-09-04 11:13:41,520 - root - WARNING - Scrapping des données en mode 'prod'
+2026-09-04 11:13:42,759 - WDM - INFO - ====== WebDriver manager ======
+2026-09-04 11:13:42,826 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-09-04 11:13:42,860 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-09-04 11:13:42,893 - WDM - INFO - There is no [linux64] chromedriver "152.0.7977.82" for browser google-chrome "152.0.7977" in cache
+2026-09-04 11:13:42,893 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-09-04 11:13:43,032 - WDM - INFO - WebDriver version 152.0.7977.82 selected
+2026-09-04 11:13:43,037 - WDM - INFO - Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/152.0.7977.82/linux64/chromedriver-linux64.zip
+2026-09-04 11:13:43,038 - WDM - INFO - About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/152.0.7977.82/linux64/chromedriver-linux64.zip
+2026-09-04 11:13:43,094 - WDM - INFO - Driver downloading response is 200
+2026-09-04 11:13:43,161 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2026-09-04 11:13:43,318 - WDM - INFO - Driver has been saved in cache [/home/runner/.wdm/drivers/chromedriver/linux64/152.0.7977.82]
+2026-09-04 11:13:49,977 - root - WARNING - Tirage illisible le 2026-09-04 00:00:00: 
+2026-09-04 11:13:49,983 - root - WARNING - Pas de nouveaux tirages à ajouter
